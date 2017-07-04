@@ -1,4 +1,8 @@
-str = 'Hellows MDM, This will be task 1'
-print("lets see if you updating")
-print("")
-print(str)
+import requests
+from bs4 import BeautifulSoup
+
+r = requests.get("https://slashdot.org")
+#r.content
+soup = BeautifulSoup(r.content)
+
+print soup.prettify()
