@@ -1,8 +1,10 @@
-import requests
-from bs4 import BeautifulSoup
+from flask import Flask
 
-r = requests.get("https://slashdot.org")
-#r.content
-soup = BeautifulSoup(r.content)
+app = Flask(__name__)
 
-print soup.prettify()
+@app.route('/')
+def hello():
+    return "hello MDM, I am testing some libraries"
+
+if __name__ == "__main__":
+    app.run()
