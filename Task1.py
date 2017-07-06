@@ -1,28 +1,47 @@
-#import requests
-#from bs4 import BeautifulSoup
+from urllib.request import urlopen as uReq
+from bs4 import BeautifulSoup as soup
 
-#r = requests.get("https://slashdot.org")
-#r.content
-#soup = BeautifulSoup(r.content)
+my_url = "https://slashdot.org/"
 
-#print soup.prettify()
-########################################################
+#opening up the connection, grabbing the page
+uClient = uReq(my_url)
+page_html = uClient.read()
+uClient.close()
 
-import requests
-from bs4 import BeautifulSoup
+#html parsing
+page_soup = soup(page_html, "html.parser")
 
-url = "https://slashdot.org"
-req = requests.get(url)
+#Grabs each field
+containers = page_soup.findAll("article",{"class":"fhitem fhitem-story article usermode thumbs grid_24"})
 
-soup = BeautifulSoup(req.content)
-links = soup.find_all("a")
+##Get the name of the link, which is the headline
+#container.header.h2.span.a.text
 
-#Print all the links
-#for link in links:
-       # print "<a href='%s'>%s</a>" % (link.get("href"), link.text)
+#Also using CSV file to display my news headlines
+#filename = "product.csv"
+#f = open(filename, "w")
 
-#g_headlines = soup.find_all("div", {"class": "infor"})
-g_headlines = soup.find_all("a", {"href": "//hardware.slashdot.org/story/17/07/05/023222/call-for-a-ban-on-child-sex-robots"})
+#headers = "Task 1: News headlines\n"
 
-for h in g_headlines:
-    print h.text
+#f.write(headers)
+
+for container in containers:
+
+	headline = container.header.h2.span.a.text
+
+	author_container = container.findAll("a", {"href":"https://twitter.com/BeauHD"})
+	author = author_container[0].text
+
+	#date_container = container.findAll("time", {"datetime":"on Thursday July 06, 2017 @06:00AM"})
+	#datee = date_container[0].text
+
+	print("Headline: " + headline)
+	print("Author name: " + author)
+	#print("Date: " + datee)
+
+#datee = 10
+
+	#f.write(headline + "," + author + "," + datee + "\n")
+#f.close()
+
+
