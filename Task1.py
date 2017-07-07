@@ -14,15 +14,7 @@ page_soup = soup(page_html, "html.parser")
 # Grabs each product
 containers = page_soup.findAll("article", {"class": "fhitem fhitem-story article usermode thumbs grid_24"})
 
-##Get the name of the link, which is the headline
-# container.header.h2.span.a.text
-
-# filename = "product.csv"
-# f = open(filename, "w")
-
-# headers = "band, product_name, shipping\n"
-
-# f.write(header)
+print("                        THE NEWS HEADLINES:\n")
 
 print("[")
 for container in containers:
