@@ -1,6 +1,4 @@
-import calendar
 import re
-from msilib import text
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 import time
@@ -13,8 +11,8 @@ from lxml import html
 
 #login code
 #Inputs for login
-username = input("Enter your useranem: ")
-password = input("Enter your password: ")
+username = input("                                              Enter your useranem: ")
+password = input("                                              Enter your password: ")
 
 try:
     payload = {
@@ -51,12 +49,12 @@ try:
     # Grabs each product
     containers = page_soup.findAll("article", {"class": "fhitem fhitem-story article usermode thumbs grid_24"})
 
+    # Input timestamp
+    input_tymstamp = input("                                              Enter the timestamp: ")
+
     print("")
     print("                                          NEWS HEADLINES:\n                                 ")
     print("[")
-
-    # Input timestamp
-    input_tymstamp = input("Enter the timestamp: ")
 
     for container in containers:
 
@@ -123,12 +121,13 @@ try:
 
         # Output the headlines, author and date of ne
         if float(input_tymstamp) <= float(tdays_timestamp):  # 1499464800.0
-            print("Headline: " + headline)
-            print("Author: " + author)
-            print("Date: " + str(timestamp2))
+            print("  Headline: " + headline)
+            print("  Author: " + author)
+            print("  Date: " + str(timestamp2))
 
         print("},")
     print("]")
+
 except:
    pass
 
