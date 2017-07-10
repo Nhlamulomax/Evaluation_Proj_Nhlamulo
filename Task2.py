@@ -32,5 +32,3 @@ if num > 0:
         print("Date: " + "Date here")
         print("")
         i = i + 1
-
-

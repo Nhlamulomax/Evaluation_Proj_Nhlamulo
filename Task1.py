@@ -1,3 +1,4 @@
+from selenium import webdriver
 import re
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
@@ -7,34 +8,19 @@ from time import strptime
 from datetime import date
 import requests
 from lxml import html
-
-
-#login code
-#Inputs for login
-username = input("                                              Enter your useranem: ")
-password = input("                                              Enter your password: ")
+import this
 
 try:
-    payload = {
-        "username": "<UNICKNAME>",
-        "password": "<UPASSWRD>",
-        "returnto": "<RETURN_TOKEN>"
-    }
-
-    session_requests = requests.session()
-
-    login_url = "https://slashdot.org/login.pl"
-    result = session_requests.get(login_url)
-
-    tree = html.fromstring(result.text)
-    authenticity_token = list(set(tree.xpath("//input[@name='returnto']/@value")))[0]
-
-    result = session_requests.post(
-        login_url,
-        data=payload,
-        headers=dict(referer=login_url)
-    )
-
+    br = webdriver.Chrome()
+    br.get('https://slashdot.org/login.pl')
+    username = br.find_element_by_id('unickname')
+    username.send_keys('Nhlamulomax')
+    password = br.find_element_by_id('upasswrd')
+    password.send_keys('nhlamulo@Slashdot')
+    password.submit()
+except:
+    print("")
+finally:
     # Scraping code
     my_url = "https://slashdot.org/"
 
@@ -127,10 +113,3 @@ try:
 
         print("},")
     print("]")
-
-except:
-   pass
-
-
-result.ok # Will tell us if the last request was ok
-result.status_code # Will give us the status from the last request
