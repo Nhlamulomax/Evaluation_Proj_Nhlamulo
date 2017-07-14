@@ -1,17 +1,20 @@
+"""Author: Nhlamulo Mbunda
+   GitHub: Nhlamulomax
+   Email: nhlamulomax@gmail.com
+   Task: slashdot.org scraping
+"""
 from selenium import webdriver
 import re
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 import time
 import datetime
-from time import strptime
-from datetime import date
-import requests
-from lxml import html
 import this
 
 try:
+    #Login code
     br = webdriver.Chrome()
+    #get url of the login page
     br.get('https://slashdot.org/login.pl')
     username = br.find_element_by_id('unickname')
     username.send_keys('Nhlamulomax')
@@ -22,10 +25,7 @@ try:
 except:
     pass
 finally:
-    #writing to excel:BONUS
-
-
-    # Scraping code
+    #url for the page
     my_url = "https://slashdot.org/"
 
     # opening up the connection, grabbing the page
@@ -36,7 +36,7 @@ finally:
     # html parsing
     page_soup = soup(page_html, "html.parser")
 
-    # Grabs each product
+    # Grabs each news
     containers = page_soup.findAll("article", {"class": "fhitem fhitem-story article usermode thumbs grid_24"})
 
     # Input timestamp
@@ -50,10 +50,10 @@ finally:
 
         print("{")
 
-        # Scrap the Headline
+        #Get the Headline
         headline = container.header.h2.span.a.text
 
-        # Scrap the Author
+        # Get the Author
         author_container = container.header.div.findAll("span", {"class": "story-byline"})
         # author name in new line
         author_name = author_container[0].text
@@ -64,9 +64,9 @@ finally:
         # removes all chars aftr space char
         author = author_frst.split(' ')[0]
 
-        #Scrap the Date
+        #Get the Date
         def fix_date(my_date):
-            #Get the month name
+            #Get the month number from month name
             def monthNum(x):
                 return {
                     'january': 1,
@@ -83,13 +83,15 @@ finally:
                     'december': 12
                 }.get(x, None)
 
+            #format my date [yyyy-mm-dd]
             date_format = (my_date[4] + str(monthNum(my_date[2].lower())) + my_date[3]).replace(',', '')
             fixed_date = datetime.datetime.strptime(date_format, "%Y%m%d").date()
 
             return fixed_date
 
-        article_date = fix_date(container.parent.find('time').text.split(' ')).strftime('%Y-%m-%d')      #2017-07-12
-
+        #Get the atticle date [yyyy-mm-dd]
+        article_date = fix_date(container.parent.find('time').text.split(' ')).strftime('%Y-%m-%d')
+        #Get the timestamp, convert date to timestamp
         timeStamp = int(time.mktime(datetime.datetime.strptime(article_date, "%Y-%m-%d").timetuple()))
 
         if input_date < article_date:
