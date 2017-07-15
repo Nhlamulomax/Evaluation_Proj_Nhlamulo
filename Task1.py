@@ -1,4 +1,4 @@
-"""Author: Nhlamulo Mbunda
+"""Author: Nhlamulo Mabunda
    GitHub: Nhlamulomax
    Email: nhlamulomax@gmail.com
    Task: slashdot.org scraping
